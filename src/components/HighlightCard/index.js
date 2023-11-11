@@ -1,10 +1,12 @@
-export default function HighlightCard({ info }) {
+import { HighlightLabel, HighlightStat, StyledHighlightCard } from "./styles";
+
+export default function HighlightCard({ info, label }) {
   return (
     <>
-      <div>
-        <p>{info.total}</p>
-        <p>total employees</p>
-      </div>
+      <StyledHighlightCard>
+        <HighlightStat>{info.total}</HighlightStat>
+        <HighlightLabel>{label}</HighlightLabel>
+      </StyledHighlightCard>
     </>
   );
 }
