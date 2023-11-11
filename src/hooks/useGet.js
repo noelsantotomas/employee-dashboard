@@ -9,7 +9,7 @@ const useGet = (endpoint) => {
     const req = axios
       .get(`http://localhost:3000/api/${endpoint}`)
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         setData(res.data);
         setLoading(false);
       });
