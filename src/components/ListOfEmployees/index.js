@@ -1,12 +1,18 @@
 import useGet from "@/hooks/useGet";
 import { EmployeeRow } from "@/components/ListOfEmployees/EmployeeRow";
 import { EmployeeTable, TableHeaderCell, TableBody } from "./styles";
+import TextInput from "../TextInput";
 
-export const ListOfEmployees = ({ employees }) => {
+export const ListOfEmployees = ({
+  employees,
+  info,
+  searchTerm,
+  onSearchChange,
+}) => {
   // console.log(employees);
   return (
     <>
-      <div className="-ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
+      <div className="pt-6 -ml-4 -mt-2 flex flex-wrap items-center justify-between sm:flex-nowrap">
         <div className="ml-4 mt-2">
           <h3 className="text-base font-semibold leading-6 text-gray-900">
             Employees
@@ -21,6 +27,12 @@ export const ListOfEmployees = ({ employees }) => {
           </button>
         </div>
       </div>
+      <input
+        type="text"
+        placeholder="Search for employee"
+        value={searchTerm}
+        onChange={onSearchChange}
+      />
       <EmployeeTable>
         <thead>
           <tr>

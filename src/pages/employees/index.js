@@ -1,11 +1,22 @@
 import { ListOfEmployees } from "@/components/ListOfEmployees";
 import HighlightCard from "@/components/HighlightCards/HighlightCard";
 import { employees } from "../../../data/employees";
-import TextInput from "@/components/TextInput";
 import Container from "@/components/Container";
 import HighlightContainer from "@/components/HighlightCards/HighlightContainer";
+import { useState } from "react";
 
 export default function EmployeeOverviewPage({ employees, info }) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearchChange = (event) => {
+    event.preventDefault();
+    setSearchTerm(event.target.value);
+  };
+
+  const filteredEmployees = employees.filter((employee) =>
+    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <Container>
       <HighlightContainer>
@@ -14,8 +25,12 @@ export default function EmployeeOverviewPage({ employees, info }) {
         <HighlightCard info={info} label="Avg. Employee Age" />
         <HighlightCard info={info} label="Avg. Employee Tenure" />
       </HighlightContainer>
-      <TextInput placeholder="Search" />
-      <ListOfEmployees employees={employees} info={info} />
+      <ListOfEmployees
+        employees={filteredEmployees}
+        info={info}
+        searchTerm={searchTerm}
+        onSearchChange={handleSearchChange}
+      />
     </Container>
   );
 }
