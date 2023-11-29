@@ -13,16 +13,32 @@ export default function EmployeeOverviewPage({
   departments,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [departmentFilter, setDepartmentFilter] = useState("All departments");
-  const [officeFilter, setOfficeFilter] = useState("All offices");
+  const [departmentFilter, setDepartmentFilter] = useState([]);
+  const [officeFilter, setOfficeFilter] = useState([]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const filteredEmployees = employees.filter((employee) =>
-    employee.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleFilterReset = () => {
+    setOfficeFilter([]);
+    setDepartmentFilter([]);
+    setSearchTerm("");
+  };
+
+  const filteredEmployees = employees.filter((employee) => {
+    const searchMatches =
+      searchTerm === "" ||
+      employee.name.toLowerCase().includes(searchTerm.toLowerCase());
+    const officeMatches =
+      officeFilter.length === 0 ||
+      officeFilter.includes(employee.office_location);
+    const departmentMatches =
+      departmentFilter.length === 0 ||
+      departmentFilter.includes(employee.department);
+
+    return searchMatches && officeMatches && departmentMatches;
+  });
 
   return (
     <Container>
@@ -56,6 +72,7 @@ export default function EmployeeOverviewPage({
         departments={departments}
         departmentFilter={departmentFilter}
         setDepartmentFilter={setDepartmentFilter}
+        handleFilterReset={handleFilterReset}
       />
 
       <ListOfEmployees
@@ -76,7 +93,7 @@ export const getServerSideProps = () => {
     new Set(employees.map((employee) => employee.department))
   );
 
-  console.log(departments);
+  // console.log(departments);
 
   return {
     props: {
